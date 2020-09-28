@@ -13,4 +13,8 @@ export class Component extends DomListener {
   init() {
     this.initDOMListeners();
   }
+
+  destroy(){
+    this.removeDOMListeners();
+  }
 }
