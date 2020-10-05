@@ -10,12 +10,18 @@ function toCell() {
 }
 
 function toCol(col) {
-  return `<div class="column">${col}</div>`;
+  return `<div class="column">
+    ${col}
+    <div class="col-resize"></div>
+    </div>`;
 }
 
 function createRow(index, content) {
+  const resizer = index ? '<div class="row-resize"></div>' : '';
   return `<div class="row">
-    <div class="info">${index ? index : ''}</div>
+    <div class="info">${index ? index : ''}
+        ${resizer}
+    </div>
     <div class="data">${content}</div>
     </div>
   `;
