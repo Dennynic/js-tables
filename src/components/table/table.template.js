@@ -5,8 +5,18 @@ const CODES = {
 
 const ROWS = 30;
 
-function toCell(_, index) {
-  return `<div class="cell" data-col="${index}" contenteditable></div>`;
+function toCell(row) {
+  return function (_, col) {
+    return `
+        <div 
+            class="cell" 
+            data-col="${col}" 
+            data-id="${row}:${col}"
+            data-type="cell" 
+            contenteditable
+            >
+        </div>`;
+  };
 }
 
 function toCol(col, index) {
@@ -45,9 +55,9 @@ export function createTable(rowsCount = ROWS) {
 
   rows.push(createRow(null, colsHtmlString));
 
-  for (let i = 0; i < rowsCount; i++) {
-    const cells = new Array(colsCount).fill('').map(toCell).join('');
-    rows.push(createRow(i + 1, cells));
+  for (let row = 0; row < rowsCount; row++) {
+    const cells = new Array(colsCount).fill('').map(toCell(row)).join('');
+    rows.push(createRow(row + 1, cells));
   }
   return rows.join('');
 }
