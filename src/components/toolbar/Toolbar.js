@@ -3,11 +3,12 @@ import { Component } from '@core/Component';
 export class Toolbar extends Component {
   static className = 'excel__toolbar';
 
-  constructor($root){
+  constructor($root, options) {
     super($root, {
       name: 'Toolbar',
-      listeners: ['click']
-    })
+      listeners: ['click'],
+      ...options,
+    });
   }
 
   toHTML() {
@@ -31,7 +32,7 @@ export class Toolbar extends Component {
             </div>`;
   }
 
-  onClick(event){
-    console.log("Event target", event.target );
+  onClick(event) {
+    //console.log('Event target', event.target);
   }
 }
