@@ -4,6 +4,7 @@ import { createTable } from '@/components/table/table.template';
 import { resizeHandler } from '@/components/table/table.resize';
 import { TableSelection } from '@/components/table/TableSelection';
 import { isCell, nextSelector, matrix } from './table.functions';
+import * as actions from '@/redux/actions';
 
 export class Table extends Component {
   static className = 'excel__table';
@@ -38,15 +39,17 @@ export class Table extends Component {
   selectCell($cell) {
     this.selection.select($cell);
     this.$emit('table:select', $cell);
+    this.$dispatch({ type: 'TEST' });
   }
 
-  onClick() {
-    //console.log('click');
+  async resizeTable(event) {
+    const data = await resizeHandler(this.$root, event);
+    this.$dispatch(actions.tableResize(data));
   }
 
   onMousedown(event) {
     const { resize } = event.target.dataset;
-    !!resize && resizeHandler(this.$root, event);
+    !!resize && this.resizeTable(event);
 
     if (isCell(event)) {
       const $target = $(event.target);
@@ -59,6 +62,10 @@ export class Table extends Component {
         this.selection.select($target);
       }
     }
+  }
+
+  onClick() {
+    //console.log('click')
   }
 
   onMousemove() {
@@ -92,6 +99,6 @@ export class Table extends Component {
   }
 
   toHTML() {
-    return createTable();
+    return createTable(20, this.store.getState());
   }
 }
